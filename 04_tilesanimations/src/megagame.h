@@ -11,7 +11,6 @@ class MegaGame : public fea::Application
     protected:
         void setup(const std::vector<std::string>& args) override;
         void loop() override;
-        void destroy() override;
     private:
         sf::Window sfWindow;
         fea::Window window;

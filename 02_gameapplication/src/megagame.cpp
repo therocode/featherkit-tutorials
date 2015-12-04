@@ -1,7 +1,7 @@
 #include "megagame.h"
 #include <SFML/Graphics/Image.hpp>
 
-MegaGame::MegaGame() : window(new fea::SFMLWindowBackend(sfWindow)), 
+MegaGame::MegaGame() : window(new fea::SFMLWindowBackend(sfWindow), fea::VideoMode(800, 600, 32), "Window and user input"), 
                        input(new fea::SFMLInputBackend(sfWindow)), 
                        renderer(fea::Viewport({800, 600}, {0, 0}, fea::Camera({800.0f / 2.0f, 600.0f / 2.0f}))), 
                        square({128.0f, 128.0f})
@@ -11,14 +11,11 @@ MegaGame::MegaGame() : window(new fea::SFMLWindowBackend(sfWindow)),
 void MegaGame::setup(const std::vector<std::string>& args)
 {
     (void)args;
-    window.create(fea::VideoMode(800, 600, 32), "Window and user input");
     window.setFramerateLimit(60);
-
-    renderer.setup();
 
     sf::Image brickImage;
     brickImage.loadFromFile("textures/brick.png");
-    brickTexture.create(64, 64, brickImage.getPixelsPtr());
+    brickTexture.create({64, 64}, brickImage.getPixelsPtr());
 
     square.setTexture(brickTexture);
 }
@@ -45,9 +42,4 @@ void MegaGame::loop()
     renderer.queue(square);
     renderer.render();
     window.swapBuffers();
-}
-
-void MegaGame::destroy()
-{
-    window.close();
 }

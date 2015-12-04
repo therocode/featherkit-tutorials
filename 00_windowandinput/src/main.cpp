@@ -5,10 +5,9 @@
 int main()
 {
     sf::Window sfWindow;
-    fea::Window window(new fea::SFMLWindowBackend(sfWindow));
+    fea::Window window(new fea::SFMLWindowBackend(sfWindow), fea::VideoMode(800, 600, 32), "Window and user input");
     fea::InputHandler input(new fea::SFMLInputBackend(sfWindow));
 
-    window.create(fea::VideoMode(800, 600, 32), "Window and user input");
     bool shutDown = false;
 
     while(!shutDown)
@@ -29,5 +28,4 @@ int main()
             }
         }
     }
-    window.close();
 }

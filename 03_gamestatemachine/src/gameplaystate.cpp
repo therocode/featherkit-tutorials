@@ -9,7 +9,7 @@ void GameplayState::setup()
 {
     sf::Image brickImage;
     brickImage.loadFromFile("./textures/brick.png");
-    brickTexture.create(64, 64, brickImage.getPixelsPtr());
+    brickTexture.create({64, 64}, brickImage.getPixelsPtr());
     square.setTexture(brickTexture);
 }
 

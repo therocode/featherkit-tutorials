@@ -9,7 +9,7 @@ void IntroState::setup()
 {
     sf::Image splashScreenImage;
     splashScreenImage.loadFromFile("./textures/intro.png");
-    splashScreenTexture.create(800, 600, splashScreenImage.getPixelsPtr());
+    splashScreenTexture.create({800, 600}, splashScreenImage.getPixelsPtr());
     splashScreen.setTexture(splashScreenTexture);
 }
 

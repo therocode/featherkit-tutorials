@@ -7,22 +7,19 @@
 int main()
 {
     sf::Window sfWindow;
-    fea::Window window(new fea::SFMLWindowBackend(sfWindow));
+    fea::Window window(new fea::SFMLWindowBackend(sfWindow), fea::VideoMode(800, 600, 32), "Window and user input");
     fea::InputHandler input(new fea::SFMLInputBackend(sfWindow));
 
-    window.create(fea::VideoMode(800, 600, 32), "Window and user input");
     window.setFramerateLimit(60);
 
     fea::Renderer2D renderer(fea::Viewport({800, 600}, {0, 0}, fea::Camera({800.0f / 2.0f, 600.0f / 2.0f})));
-
-    renderer.setup();
 
     bool shutDown = false;
 
     sf::Image brickImage;
     brickImage.loadFromFile("./textures/brick.png");
     fea::Texture brickTexture;
-    brickTexture.create(64, 64, brickImage.getPixelsPtr());
+    brickTexture.create({64, 64}, brickImage.getPixelsPtr());
     fea::Quad square({128.0f, 128.0f});
     square.setTexture(brickTexture);
 
@@ -49,5 +46,4 @@ int main()
         renderer.render();
         window.swapBuffers();
     }
-    window.close();
 }

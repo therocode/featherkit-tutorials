@@ -1,7 +1,7 @@
 #include "gameplaystate.h"
 #include <SFML/Graphics/Image.hpp>
 
-GameplayState::GameplayState(fea::InputHandler& iH, fea::Renderer2D& r) : input(iH), renderer(r), tiles(20, 20, 128, 128, 0.5f, 0.5f), slime({112.0f, 72.0f})
+GameplayState::GameplayState(fea::InputHandler& iH, fea::Renderer2D& r) : input(iH), renderer(r), tiles({128, 128}, {64, 64}), slime({112.0f, 72.0f})
 {
 }
 
@@ -11,7 +11,7 @@ void GameplayState::setup()
 {
     sf::Image tilesImage;
     tilesImage.loadFromFile("./textures/tiles.png");
-    tileTexture.create(128, 128, tilesImage.getPixelsPtr());
+    tileTexture.create({128, 128}, tilesImage.getPixelsPtr());
     tiles.setTexture(tileTexture);
 
     tiles.addTileDefinition(BACKGROUND, fea::TileDefinition(glm::uvec2(0, 0)));
@@ -19,7 +19,7 @@ void GameplayState::setup()
     tiles.addTileDefinition(LANTERN1, fea::TileDefinition(glm::uvec2(0, 1), LANTERN2, 20));
     tiles.addTileDefinition(LANTERN2, fea::TileDefinition(glm::uvec2(1, 1), LANTERN1, 20));
 
-    tiles.fill(BACKGROUND);
+    tiles.fillRegion({0, 0}, {20, 20}, BACKGROUND);
     tiles.setTile({0, 3}, BRICK);
     tiles.setTile({1, 3}, BRICK);
     tiles.setTile({2, 3}, BRICK);
@@ -39,10 +39,10 @@ void GameplayState::setup()
 
     sf::Image slimeImage;
     slimeImage.loadFromFile("./textures/slime.png");
-    slimeTexture.create(112, 18, slimeImage.getPixelsPtr());
+    slimeTexture.create({112, 18}, slimeImage.getPixelsPtr());
     slime.setTexture(slimeTexture);
 
-    slimeAnimation = fea::Animation(glm::vec2(0.0f, 0.0f), glm::vec2(28.0f / 112.0f, 18.0f / 18.0f), 4, 8);
+    slimeAnimation = fea::Animation(glm::ivec2(0, 0), glm::ivec2(28, 18), 4, 8);
     slime.setTexture(slimeTexture);
     slime.setAnimation(slimeAnimation);
     slime.setPosition({320.0f, 312.0f});
@@ -68,8 +68,7 @@ std::string GameplayState::run()
 
     renderer.clear();
 
-    for(auto& chunk : tiles.getTileChunks())
-        renderer.queue(*chunk);
+    renderer.queue(tiles);
 
     renderer.queue(slime);
 
